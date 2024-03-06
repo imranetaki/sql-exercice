@@ -1,0 +1,26 @@
+-- Active: 1707465553718@@127.0.0.1@3306@centre_formation
+SELECT COUNT(numCINEtu) AS NOMBRE_ETUDIANT FROM etudiant ;
+
+SELECT nomEtu, prenomEtu, 
+       TIMESTAMPDIFF(YEAR, dateNaissance, CURDATE()) AS age
+FROM etudiant;
+--Cette requête sélectionne le nom, le prénom de chaque étudiant, et calcule leur âge en utilisant la fonction TIMESTAMPDIFF(). La fonction TIMESTAMPDIFF(YEAR, dateNaissance, CURDATE()) retourne la différence en années entre la date actuelle (CURDATE()) et la date de naissance de chaque étudiant.
+
+
+ SELECT min(prixForm)AS formation_moins_chère From formation;
+
+ SELECT max(prixForm)AS formation_plus_chère From formation;
+ SELECT sum(prixForm)AS total From formation;
+
+ SELECT num_CINEtu, COUNT(*) AS nombre_inscriptions
+FROM inscription
+GROUP BY num_CINEtu;
+
+SELECT DISTINCT num_CINEtu
+FROM inscription;
+
+SELECT codeSess,
+       SUM(CASE WHEN TypeCours = 'Distanciel' THEN 1 ELSE 0 END) AS nombre_inscriptions_distancielles,
+       SUM(CASE WHEN TypeCours = 'Présentiel' THEN 1 ELSE 0 END) AS nombre_inscriptions_présentielles
+FROM inscription
+GROUP BY codeSess;

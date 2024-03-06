@@ -1,0 +1,89 @@
+CREATE DATABASE ecurie;
+USE DATABASE ecurie
+
+CREATE TABLE Cheval (
+     num_cheval int PRIMARY KEY AUTO_INCREMENT,
+     nom_cheval varchar(50),
+     couleur_cheval varchar(50),
+     num_tatouage int,
+     id_pesronne INT,
+     Foreign Key (id_pesronne) REFERENCES personne(id_pesronne),
+     num_cheval_mere INT,
+     FOREIGN KEY (num_persElveur) REFERENCES person (num_person),
+        FOREIGN KEY (nom_Race) REFERENCES race(nom_Race)
+    --  Foreign Key (num_cheval_mere) REFERENCES ()
+);
+
+CREATE TABLE personne (
+    id_personne INT PRIMARY KEY AUTO_INCREMENT,
+    nom_personne VARCHAR(50),
+    prenom_personne VARCHAR(50),
+    adresse_personne VARCHAR(50),
+    telephone_personne VARCHAR(50),
+    fonction_personne VARCHAR(50),
+    
+);
+
+CREATE TABLE Concours(
+    nom_concours VARCHAR(50) PRIMARY KEY,
+    annee_concours YEAR,
+    nombre_pariticipants INT
+);
+
+CREATE TABLE Race(
+    nom_race VARCHAR(50) PRIMARY KEY,
+    poids_type DECIMAL(10,2),
+    taille_type DECIMAL(10,2)
+);
+
+CREATE Table proprietaire (
+    id_personne INT,
+    Foreign Key (id_personne) REFERENCES personne(id_personne),
+    num_cheval INT,
+    Foreign Key (num_cheval) REFERENCES cheval(num_cheval),
+    prix_achat DECIMAL(10,2),
+    datche_achat DATE
+);
+
+CREATE Table croissance(
+    id_croissance INT PRIMARY KEY,
+    mois DATE,
+    poidscoris DECIMAL(10,2),
+    taillecrois DECIMAL(10,2),
+    num_cheval INT
+    Foreign Key (num_cheval) REFERENCES croissance(num_cheval)
+
+);
+CREATE Table participation(
+    num_cheval INT,
+    nom_concours VARCHAR(45),
+    anneeConcours INT,
+    placeConcour VARCHAR(45),
+    FOREIGN KEY (num_cheval) REFERENCES cheval(num_cheval),
+    FOREIGN KEY (nom_concours, anneeConcours) REFERENCES concour(nomConcours, anneeConcours)
+);
+
+-- q1
+SELECT * from cheval;
+SELECT * from person;
+SELECT * from race;
+SELECT * from concour;
+SELECT * from croissance;
+SELECT * from proprietaire;
+SELECT * from participationconcour;
+
+-- q2
+SELECT * FROM cheval WHERE nomRace = 'Arabian' ORDER BY nom_cheval DESC;
+
+--  q3
+SELECT poidType,tailleType FROM race WHERE nomRace = 'Arabian';
+-- q4
+SELECT nom,prenom From person where num_person = (SELECT num_person from proprietaire) order by nom;
+-- q5
+SELECT nom, prenom
+FROM person
+WHERE num_personSup IS NULL;
+-- q6
+SELECT nomConcour
+FROM concour
+WHERE anneeConcour = 2019;
